@@ -1,0 +1,12 @@
+<div ng-show="error" style="color: red;">{{error}}</div>
+<div ng-show="success" style="color: green;">User Saved successfully</div>
+<div><label><span>First Name</span><input type="text" ng-model="user.firstName" /></label></div>
+<div><label><span>Last Name</span><input type="text" ng-model="user.lastName" /></label></div>
+<div><label><span>Email</span><input type="text" ng-model="user.email" /></label></div>
+<div><label><span>Display Name</span><input type="text" ng-model="user.displayName" /></label></div>
+<div><label><span>Profile Image URL</span><input type="text" ng-model="user.profileImageURL" /></label><a ng-href="{{user.profileImageURL}}" target="_blank">View</a></div>
+
+<div><label><span>Enabled</span><input type="checkbox" ng-model="user.enabled" /></label></div>
+<div><label><span>Account Expired</span><input type="checkbox" ng-model="user.accountExpired" /></label></div>
+<div><label><span>Account Locked</span><input type="checkbox" ng-model="user.accountLocked" /></label></div>
+<button ng-click="saveUser(user)" ng-disabled="processing">Update {{user.displayName}}'s profile</button>
