@@ -20,6 +20,9 @@ config(['$routeProvider', function($routeProvider) {
           },
           pfsStatuses: function(ProductForSale) {
               return ProductForSale.statuses()
+          },
+          categories: function(Category) {
+              return Category.query();
           }
       }
   });

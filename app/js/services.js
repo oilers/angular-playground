@@ -13,6 +13,16 @@ services.factory("User", ['$resource',
         return $resource('http://my.craftsy.com/admin/rest/user/:userId.json')
     }
 ]);
+services.factory("Pattern", ['$resource',
+    function($resource){
+        return $resource('http://my.craftsy.com/admin/rest/pattern/:patternId.json')
+    }
+]);
+services.factory("Category", ['$resource',
+    function($resource){
+        return $resource('http://my.craftsy.com/admin/rest/category/:categoryId.json')
+    }
+]);
 services.factory("ProductForSale", ['$resource',
     function($resource){
         return $resource('http://my.craftsy.com/admin/rest/productForSale/:pfsId.json', {pfsId: '@pfsId'}, {

@@ -13,9 +13,10 @@ angular.module('userApp.controllers', [])
                 $scope.user = User.get({userId: userId});
         }
     }])
-    .controller('ProductForSaleController', ['$scope', '$log', "pfs", "pfsStatuses", function($scope, $log, pfs, pfsStatuses) {
+    .controller('ProductForSaleController', ['$scope', '$log', "pfs", "pfsStatuses", "categories","Pattern", function($scope, $log, pfs, pfsStatuses, categories, Pattern) {
         $scope.pfs = pfs;
         $scope.pfsStatuses = pfsStatuses;
+        $scope.categories = categories;
         $scope.freePattern = !pfs.kit && pfs.includedPattern;
         $scope.pfsExpire = pfs.expirationDate && pfs.expirationDate.getYear() != 8099;
         $scope.bundleType = 'ALL_OR_NOTHING';
@@ -32,7 +33,18 @@ angular.module('userApp.controllers', [])
         };
         $scope.test = function(pfs) {
             $log.error(pfs);
-        }
+        };
+        $scope.checkPattern = function(pfs) {
+            pfs.pattern = Pattern.get({patternId: pfs.pattern.id});
+        };
+        $scope.deleteArrayItem = function(index, array) {
+            array.splice(index, 1)
+        };
+        $scope.updateUberPrice = function(price, ubers) {
+            for(var i = 0; i < ubers.length; i++) {
+                ubers[i].displayPrice = price;
+            }
+        };
     }])
 .controller("UserController", ["$scope", "$routeParams", "User", function($scope, $routeParams, User){
         $scope.user = User.get({userId: $routeParams.userId});

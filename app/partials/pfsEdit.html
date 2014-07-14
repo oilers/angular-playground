@@ -1,11 +1,5 @@
 <h1>{{pfs.name}} ({{pfs.id}})</h1>
 <p>What is the Product For Sale status? <select ng-model="pfs.status" ng-options="status for status in pfsStatuses"></select></p>
-<p>What do you want to build? <select ng-model="bundleType" ng-options="bundleType.value as bundleType.name for bundleType in bundleTypes"></select></p>
-<div>PLACEHOLDER FOR PRODUCT SHIT</div>
-<p><label>Is this a kit? <input type="checkbox" ng-model="pfs.kit"> </label></p>
-<div ng-show="pfs.kit">OMG KIT SHIT</div>
-<p><label>Is there a free pattern associated with this? <input type="checkbox" ng-model="freePattern"> </label></p>
-<div ng-show="freePattern">Free pattern stuff</div>
 <p>What is the name? <input type="text" ng-model="pfs.name" /> <a ng-click="forceShortName = toggleShortName(pfs, forceShortName)">{{pfs.shortName || forceShortName? 'Remove' : 'Add a '}} short name</a></p>
 <p ng-show="pfs.shortName || forceShortName"> What is the short name? <input type="text" ng-model="pfs.shortName" /></p>
 <p>What is the url? <input type="text" ng-model="pfs.urlName" /> </p>
@@ -13,14 +7,62 @@
 <p><label>Does it expire? <input type="checkbox" ng-model="pfsExpire" /> </label> <input ng-show="pfsExpire" type="datetime-local" ng-model="pfs.expirationDate" /></p>
 <p>Max Quantity? <input type="number" ng-model="pfs.maxQuantity" /></p>
 <p>Allow Wait list? <input type="checkbox" ng-model="pfs.allowWaitList"/></p>
-<div ng-repeat="asset in pfs.assets | orderBy:'displayOrder'">
-  <p>{{asset.displayOrder}}</p>
-  <p>{{asset.assetInventory.baseColor}}</p>
-  <p>{{asset.assetInventory.primaryColor}}</p>
-  <img width="135px" ng-src="http://cdn.craftsy.com{{asset.assetInventory.url}}" />
-</div>
 <p>What is the Summary? <textarea ng-model="pfs.summary" ></textarea></p>
 <p>What is the description? <textarea ng-model="pfs.description"></textarea></p>
-<p></p>
+<p>What do you want to build? <select ng-model="bundleType" ng-options="bundleType.value as bundleType.name for bundleType in bundleTypes"></select></p>
+<table>
+    <thead>
+        <tr><th></th><th>Available</th><th>Quantity</th><th>Name</th><th>Product SKU</th></tr>
+    </thead>
+    <tr ng-repeat="item in pfs.bundleItems">
+        <td><a ng-click="deleteArrayItem($index, pfs.bundleItems)">X</a></td>
+        <td>{{item.available}}</td>
+        <td><input type="number" ng-model="item.quantity" /></td>
+        <td><a ng-href="/admin/product/product/{{item.productId}}">{{item.productName}}</a></td>
+        <td><a ng-href="/admin/product/product/{{item.productId}}">{{item.productSKU}}</a></td>
+    </tr>
+</table>
+<p><label>Is this a kit? <input type="checkbox" ng-model="pfs.kit"> </label></p>
+<div ng-show="pfs.kit">
+    <p>What kind? <select ng-model="pfs.displayType">
+        <option value="SUPPLIES_PROJECT_KIT">Project Kit</option>
+        <option value="SUPPLIES_COURSE_KIT">Course Kit</option>
+        <option value="SUPPLIES_OTHER_KIT">Other</option>
+    </select></p>
+
+</div>
+<div ng-show="pfs.displayType == 'SUPPLIES_PROJECT_KIT' || freePattern">
+    <p>What is the Pattern ID? <input type="number" ng-model="pfs.pattern.id" /> <a ng-click="checkPattern(pfs)">Check Pattern</a></p>
+    <div ng-show="pfs.pattern.imageUrl">
+        <p>{{pfs.pattern.name}}</p>
+        <img ng-src="http://{{pfs.pattern.imageUrl}}" />
+    </div>
+    <span ng-show="pfs.pattern.basePrice > 0 && pfs.pattern.sku">Pattern has an SKU ({{pfs.pattern.sku}})</span>
+    <span ng-show="pfs.pattern.basePrice > 0 && !pfs.pattern.sku"> Warning: Pattern does not have an SKU</span>
+    <span ng-show="pfs.pattern.basePrice == 0">Pattern is free!</span>
+</div>
+<p><label>Is there a free pattern associated with this? <input type="checkbox" ng-model="freePattern"> </label></p>
+<div ng-repeat="asset in pfs.assets | orderBy:'displayOrder'">
+    <p>{{asset.displayOrder}}</p>
+    <p>{{asset.assetInventory.baseColor}}</p>
+    <p>{{asset.assetInventory.primaryColor}}</p>
+    <img width="135px" ng-src="http://cdn.craftsy.com{{asset.assetInventory.url}}" />
+</div>
+<p>What is the MSRP? <input type="number" ng-model="pfs.promoOffer.displayPrice" ng-change="updateUberPrice(pfs.promoOffer.displayPrice, pfs.ubers)" /></p>
+<table>
+    <thead>
+        <tr><th></th><th>MSRP</th><th>Craftsy</th><th>Uber ID</th><th>Uber Name</th></tr>
+    </thead>
+ <tr ng-repeat="uber in pfs.ubers">
+     <td><a ng-click="deleteArrayItem($index, pfs.ubers)">X</a></td>
+     <td><input type="number" ng-model="uber.displayPrice"/></td>
+     <td><input ng-model="uber.actualPrice" type="number" /></td>
+     <td>{{uber.uberOfferId}}</td>
+     <td>{{uber.name}}</td>
+ </tr>
+
+
+</table>
+<p>What is the main Category? <select ng-model="pfs.categoryId" ng-options="category.id as category.name for category in categories"></select> </p>
 <p></p>
 <p></p>
