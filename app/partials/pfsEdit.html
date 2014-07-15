@@ -64,5 +64,10 @@
 
 </table>
 <p>What is the main Category? <select ng-model="pfs.categoryId" ng-options="category.id as category.name for category in categories"></select> </p>
-<p></p>
+<ul>
+    <li ng-repeat="theme in pfs.dealGalleryThemes"><a ng-click="deleteArrayItem($index, pfs.dealGalleryThemes)">X</a> <span>{{theme.name}}</span></li>
+</ul>
+<ul>
+    <li ng-repeat="shopSection in pfs.shopSections"><a ng-click="deleteArrayItem($index, pfs.shopSections)">X</a> <span>{{shopSection.displayName}}</span></li>
+</ul>
 <p></p>
