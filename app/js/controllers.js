@@ -45,6 +45,9 @@ angular.module('userApp.controllers', [])
                 ubers[i].displayPrice = price;
             }
         };
+        $scope.savePFS = function(pfs) {
+            pfs.$save();
+        }
     }])
 .controller("UserController", ["$scope", "$routeParams", "User", function($scope, $routeParams, User){
         $scope.user = User.get({userId: $routeParams.userId});
@@ -52,10 +55,7 @@ angular.module('userApp.controllers', [])
             $scope.processing = true;
             $scope.success = false;
             $scope.error = undefined;
-            var savedUser = user.$save({userId: user.id}, function(data){$scope.success = true;}, function(error){
-               $scope.error = error.data.message;
-
-            });
+            var savedUser = user.$save();
             savedUser['finally'](function(){
                 $scope.processing = true;
             });

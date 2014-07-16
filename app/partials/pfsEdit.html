@@ -49,6 +49,7 @@
     <img width="135px" ng-src="http://cdn.craftsy.com{{asset.assetInventory.url}}" />
 </div>
 <p>What is the MSRP? <input type="number" ng-model="pfs.promoOffer.displayPrice" ng-change="updateUberPrice(pfs.promoOffer.displayPrice, pfs.ubers)" /></p>
+<p>What is the Craftsy price? <input type="number" ng-model="pfs.promoOffer.actualPrice" ng-change="updateUberPrice(pfs.promoOffer.displayPrice, pfs.ubers)" /></p>
 <table>
     <thead>
         <tr><th></th><th>MSRP</th><th>Craftsy</th><th>Uber ID</th><th>Uber Name</th></tr>
@@ -70,4 +71,4 @@
 <ul>
     <li ng-repeat="shopSection in pfs.shopSections"><a ng-click="deleteArrayItem($index, pfs.shopSections)">X</a> <span>{{shopSection.displayName}}</span></li>
 </ul>
-<p></p>
+<button ng-click="savePFS(pfs)">Save</button>
